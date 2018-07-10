@@ -1,0 +1,14 @@
+{
+  "name": "kafka-stdin-consumer",
+  "version": "1.0.0",
+  "description": "A simple Kafka consumer that reads messages and writes them to stdin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeff Mataya",
+  "license": "MIT",
+  "dependencies": {
+    "kafka-node": "^2.6.1"
+  }
+}
