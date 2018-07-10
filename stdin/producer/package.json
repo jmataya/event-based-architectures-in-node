@@ -1,0 +1,14 @@
+{
+  "name": "kafka-stdin-producer",
+  "version": "1.0.0",
+  "description": "A simple Kafka producer that reads messages from standard in",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeff Mataya",
+  "license": "MIT",
+  "dependencies": {
+    "kafka-node": "^2.6.1"
+  }
+}
