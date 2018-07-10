@@ -1,2 +1,3 @@
+commerce/node_modules/*
 stdin/consumer/node_modules/*
 stdin/producer/node_modules/*
