@@ -45,10 +45,7 @@ OrderService.prototype.addLineItems = function(req) {
     return { status: 404, error: `Order ${orderRef} not found` };
   }
 
-  let newCart = { ...cart, lineItems };
-  this.carts[orderRef] = newCart;
-
-  return { status: 200, resp: newCart };
+  return { status: 200, resp: { ...cart, lineItems } };
 };
 
 OrderService.prototype.addShippingAddress = function(req) {
@@ -64,10 +61,7 @@ OrderService.prototype.addShippingAddress = function(req) {
     return { status: 404, error: `Order ${orderRef} not found` };
   }
 
-  let newCart = { ...cart, shippingAddress: address };
-  this.carts[orderRef] = newCart;
-
-  return { status: 200, resp: newCart };
+  return { status: 200, resp: { ...cart, shippingAddress: address } };
 };
 
 OrderService.prototype.addPaymentMethod = function(req) {
@@ -83,10 +77,7 @@ OrderService.prototype.addPaymentMethod = function(req) {
     return { status: 404, error: `Order ${orderRef} not found` };
   }
 
-  let newCart = { ...cart, paymentMethod: payment };
-  this.carts[orderRef] = newCart;
-
-  return { status: 200, resp: newCart };
+  return { status: 200, resp: { ...cart, paymentMethod: payment } };
 };
 
 OrderService.prototype.checkout = function(req) {
@@ -95,14 +86,6 @@ OrderService.prototype.checkout = function(req) {
 
   if (!cart) {
     return { status: 404, error: `Order ${orderRef} not found` };
-  }
-
-  if (!cart.lineItems || cart.lineItems.length == 0) {
-    return { status: 400, error: 'Cart must have line items to checkout' };
-  } else if (!cart.shippingAddress) {
-    return { status: 400, error: 'Cart must have a shipping address to checkout' };
-  } else if (!cart.paymentMethod) {
-    return { status: 400, error: 'Cart must have a payment method to checkout' };
   }
 
   delete this.customers[cart.customerId];
