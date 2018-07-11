@@ -11,6 +11,7 @@ curl -X PATCH \
         "street2": "Suite 240",
         "city": "Seattle",
         "state": "WA",
-        "postalCode": "98121"
+        "postalCode": "98121",
+        "phoneNumber": "2069637392"
       }
     }' | jq .

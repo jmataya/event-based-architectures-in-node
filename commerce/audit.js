@@ -12,9 +12,7 @@ function handleCreateCart(payload) {
   let { customerId, orderRef } = payload;
   let customerName = customers[customerId - 1];
 
-  if (customerName) {
-    console.log(`${customerName} created a new cart with reference ${orderRef}`);
-  }
+  console.log(`${customerName} created a new cart with reference ${orderRef}`);
 }
 
 function handleAddLineItems(payload) {
