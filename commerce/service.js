@@ -27,7 +27,7 @@ OrderService.prototype.createCart = function(req) {
 
   let cart = { customerId, orderRef };
   this.carts[orderRef] = cart;
-  this.customers['customerId'] = orderRef;
+  this.customers[customerId] = orderRef;
 
   return { status: 201, resp: cart };
 };
