@@ -1,4 +1,8 @@
-function OrderService() {}
+function OrderService() {
+  this.carts = {};
+  this.customers = {};
+  this.numOrders = 0;
+}
 
 function getCart(carts, refNum) {
   if (!carts || !carts[refNum]) {
@@ -8,19 +12,15 @@ function getCart(carts, refNum) {
   };
 }
 
-OrderService.prototype.createCart = req => {
+OrderService.prototype.createCart = function(req) {
   let { customerId } = req.body;
   if (!customerId) {
     return { status: 400, error: 'Invalid payload, customerId is required' };
   }
 
-  if (this.customers && this.customers[customerId]) {
+  if (this.customers[customerId]) {
     return { status: 400, error: `Customer ${customerId} already has cart` };
   }
-
-  if (!this.carts) this.carts = {};
-  if (!this.customers) this.customers = {};
-  if (!this.numOrders) this.numOrders = 0;
 
   let orderRef = `BR1000${this.numOrders}`;
   this.numOrders += 1;
@@ -32,16 +32,17 @@ OrderService.prototype.createCart = req => {
   return { status: 201, resp: cart };
 };
 
-OrderService.prototype.addLineItems = req => {
+OrderService.prototype.addLineItems = function(req) {
   let { lineItems } = req.body;
   if (!lineItems || lineItems.length == 0) {
     return { status: 400, error: 'Invalid payload, must have line items' };
   }
 
   let orderRef = req.params['orderRef'];
-  let { cart, error } = getCart(this.carts, orderRef);
+  let cart = this.carts[orderRef];
+
   if (!cart) {
-    return { status: 404, error };
+    return { status: 404, error: `Order ${orderRef} not found` };
   }
 
   let newCart = { ...cart, lineItems };
@@ -50,16 +51,17 @@ OrderService.prototype.addLineItems = req => {
   return { status: 200, resp: newCart };
 };
 
-OrderService.prototype.addShippingAddress = req => {
+OrderService.prototype.addShippingAddress = function(req) {
   let { address } = req.body;
   if (!address) {
     return { status: 400, error: 'Invalid payload, must have an address' };
   }
 
   let orderRef = req.params['orderRef'];
-  let { cart, error } = getCart(this.carts, orderRef);
+  let cart = this.carts[orderRef];
+
   if (!cart) {
-    return { status: 404, error };
+    return { status: 404, error: `Order ${orderRef} not found` };
   }
 
   let newCart = { ...cart, shippingAddress: address };
@@ -68,16 +70,17 @@ OrderService.prototype.addShippingAddress = req => {
   return { status: 200, resp: newCart };
 };
 
-OrderService.prototype.addPaymentMethod = req => {
+OrderService.prototype.addPaymentMethod = function(req) {
   let { payment } = req.body;
   if (!payment) {
     return { status: 400, error: 'Invalid payload, must have a payment' };
   }
 
   let orderRef = req.params['orderRef'];
-  let { cart, error } = getCart(this.carts, orderRef);
+  let cart = this.carts[orderRef];
+
   if (!cart) {
-    return { status: 404, error };
+    return { status: 404, error: `Order ${orderRef} not found` };
   }
 
   let newCart = { ...cart, paymentMethod: payment };

@@ -4,14 +4,14 @@ function ActivityConsumer() {
   this.handlerMap = {};
 }
 
-ActivityConsumer.prototype.addHandler = (activityType, messageHandler) => {
+ActivityConsumer.prototype.addHandler = function(activityType, messageHandler) {
   this.handlerMap = {
     ...this.handlerMap,
     [activityType]: messageHandler
   };
 };
 
-ActivityConsumer.prototype.handle = ({ kafkaHost, topic, partition }) => {
+ActivityConsumer.prototype.handle = function({ kafkaHost, topic, partition }) {
   let client = new kafka.KafkaClient({ kafkaHost });
   let topics = [{ topic, partition }];
   let consumer = new kafka.Consumer(client, topics);
