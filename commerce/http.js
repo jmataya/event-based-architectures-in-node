@@ -1,48 +1,41 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const OrderService = require("./service");
 
-let numOrders = 0;
+let service = new OrderService();
 
 function createCart(req, res) {
-  let payload = req.body;
-  if (!payload.customerId) {
-    res.status(400).send({ error: 'Invalid payload, customerId is required' });
+  let { resp, error, status } = service.createCart(req);
+  if (error) {
+    res.status(status).json({ error });
   }
-
-  let orderRef = `BR1000${numOrders}`;
-  numOrders += 1;
-
-  res.status(201).json({ orderRef });
-};
+  res.status(status).json(resp);
+}
 
 function addLineItems(req, res) {
-  let payload = req.body;
-  if (!payload.lineItems || payload.lineItems.length == 0) {
-    res.status(400).json({ error: 'Invalid payload, must have line items' });
+  let { error, resp, status } = service.addLineItems(req);
+  if (error) {
+    res.status(status).json({ error });
   }
-
-  res.status(200).json(payload);
+  res.status(status).json(resp);
 }
 
 function addShippingAddress(req, res) {
-  let payload = req.body;
-  if (!payload.address) {
-    req.status(400).json({ error: 'Invalid payload, must have an address' });
+  let { error, resp, status } = service.addShippingAddress(req);
+  if (error) {
+    res.status(status).json({ error });
   }
-
-  res.status(200).json(payload);
+  res.status(status).json(resp);
 }
 
 function addPaymentMethod(req, res) {
-  let payload = req.body;
-  if (!payload.payment) {
-    req.status(400).json({ error: 'Invalid payload, must have a payment' });
+  let { error, resp, status } = service.addPaymentMethod(req);
+  if (error) {
+    res.status(status).json({ error });
   }
-
-  res.status(200).json(payload);
+  res.status(status).json(resp);
 }
-
 
 function run(port) {
   app.use(bodyParser.json());
