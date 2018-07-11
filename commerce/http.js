@@ -5,36 +5,31 @@ const OrderService = require("./service");
 
 let service = new OrderService();
 
-function createCart(req, res) {
-  let { resp, error, status } = service.createCart(req);
+function handleResp(res, { resp, error, status }) {
   if (error) {
     res.status(status).json({ error });
   }
   res.status(status).json(resp);
+}
+
+function createCart(req, res) {
+  let resp = service.createCart(req);
+  handleResp(res, resp);
 }
 
 function addLineItems(req, res) {
-  let { error, resp, status } = service.addLineItems(req);
-  if (error) {
-    res.status(status).json({ error });
-  }
-  res.status(status).json(resp);
+  let resp = service.addLineItems(req);
+  handleResp(res, resp);
 }
 
 function addShippingAddress(req, res) {
-  let { error, resp, status } = service.addShippingAddress(req);
-  if (error) {
-    res.status(status).json({ error });
-  }
-  res.status(status).json(resp);
+  let resp = service.addShippingAddress(req);
+  handleResp(res, resp);
 }
 
 function addPaymentMethod(req, res) {
-  let { error, resp, status } = service.addPaymentMethod(req);
-  if (error) {
-    res.status(status).json({ error });
-  }
-  res.status(status).json(resp);
+  let resp = service.addPaymentMethod(req);
+  handleResp(res, resp);
 }
 
 function run(port) {
