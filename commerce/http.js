@@ -52,6 +52,14 @@ function addPaymentMethod(req, res) {
   }
 }
 
+function checkout(req, res) {
+  let svcResp = service.checkout(req);
+
+  if (handleResp(res, svcResp)) {
+    producer.send('checkout', svcResp.resp);
+  }
+}
+
 function run(port) {
   app.use(bodyParser.json());
 
@@ -59,6 +67,7 @@ function run(port) {
   app.patch('/carts/:orderRef/line-items', addLineItems);
   app.patch('/carts/:orderRef/shipping-address', addShippingAddress);
   app.patch('/carts/:orderRef/payment-method', addPaymentMethod);
+  app.post('/carts/:orderRef/checkout', checkout);
 
   app.listen(port, () => console.log(`Commerce API listening on port ${port}`)); 
 };

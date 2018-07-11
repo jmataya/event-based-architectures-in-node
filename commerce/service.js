@@ -89,4 +89,26 @@ OrderService.prototype.addPaymentMethod = function(req) {
   return { status: 200, resp: newCart };
 };
 
+OrderService.prototype.checkout = function(req) {
+  let orderRef = req.params['orderRef'];
+  let cart = this.carts[orderRef];
+
+  if (!cart) {
+    return { status: 404, error: `Order ${orderRef} not found` };
+  }
+
+  if (!cart.lineItems || cart.lineItems.length == 0) {
+    return { status: 400, error: 'Cart must have line items to checkout' };
+  } else if (!cart.shippingAddress) {
+    return { status: 400, error: 'Cart must have a shipping address to checkout' };
+  } else if (!cart.paymentMethod) {
+    return { status: 400, error: 'Cart must have a payment method to checkout' };
+  }
+
+  delete this.customers[cart.customerId];
+  delete this.carts[orderRef];  
+
+  return { status: 200, resp: cart };
+};
+
 module.exports = OrderService;

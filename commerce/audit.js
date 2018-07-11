@@ -43,6 +43,13 @@ function handleAddPaymentMethod(payload) {
   console.log(`${customerName} added credit card ${cardNumber} to cart ${orderRef}`);
 }
 
+function handleCheckout(payload) {
+  let { customerId, orderRef } = payload;
+  let customerName = customers[customerId - 1];
+
+  console.log(`${customerName} completed order ${orderRef} successfully`);
+}
+
 
 let consumer = new ActivityConsumer();
 
@@ -50,6 +57,7 @@ consumer.addHandler("create_cart", handleCreateCart);
 consumer.addHandler("add_line_items", handleAddLineItems);
 consumer.addHandler("add_shipping_address", handleAddShippingAddress);
 consumer.addHandler("add_payment_method", handleAddPaymentMethod);
+consumer.addHandler("checkout", handleCheckout);
 
 console.log('------------------');
 console.log('Audit Log Starting');
