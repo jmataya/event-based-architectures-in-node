@@ -9,6 +9,8 @@
   "author": "Jeff Mataya",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
     "kafka-node": "^2.6.1"
   }
 }

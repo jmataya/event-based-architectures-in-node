@@ -19,7 +19,7 @@ ActivityConsumer.prototype.handle = ({ kafkaHost, topic, partition }) => {
   consumer.on('message', handleMessage(this.handlerMap));
 };
 
-let handleMessage = handlerMap => message => {
+const handleMessage = handlerMap => message => {
   if (message && message.value) {
     let { activityType, payload } = JSON.parse(message.value);
     let handler = handlerMap[activityType];
